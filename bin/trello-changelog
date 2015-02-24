@@ -1,0 +1,16 @@
+#!/usr/bin/env ruby
+
+require 'date'
+require 'thor'
+require 'trello-changelog'
+
+class TrelloChangelogCommand < Thor
+  desc 'print', 'print trelloboard for specific week'
+  option :week, type: :numeric, desc: 'Trello week', default: Date.today.cweek
+
+  def print
+    TrelloChangelog.new(options[:week])
+  end
+end
+
+TrelloChangelogCommand.start
