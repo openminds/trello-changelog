@@ -8,7 +8,7 @@ Trello-changelog summarizes your Trello-board
 
 Install the gem:
 
-`gem install Trello-changelog`
+`gem install trello-changelog`
 
 ## Configuration
 ---------
