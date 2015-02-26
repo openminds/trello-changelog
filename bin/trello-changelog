@@ -5,11 +5,11 @@ require 'thor'
 require 'trello-changelog'
 
 class TrelloChangelogCommand < Thor
-  desc 'print', 'print trelloboard for specific week'
-  option :week, type: :numeric, desc: 'Trello week', default: Date.today.cweek
+  desc 'print', 'print trelloboard from a startdate (example: trello-changelog --start_date=2015-02-01) this parameter is only needed if you want to run on an other day than friday.'
+  option :start_date, type: :string, desc: 'Start date'
 
   def print
-    TrelloChangelog.new(options[:week])
+    TrelloChangelog.new(options[:start_date])
   end
 end
 

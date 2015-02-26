@@ -1,6 +1,14 @@
 require 'date'
 require 'trello'
 
+begin
+  require '~/.trello-changelog.rb'
+rescue LoadError
+  puts 'File: ".trello-changelog.rb" was not found in your home directory!'
+  exit
+end
+
+
 module Trello
   class Card < BasicData
     def creation_date
@@ -11,32 +19,34 @@ module Trello
 end
 
 class TrelloChangelog
-  def initialize(week)
-    config = []
-    config_lines = File.readlines(File.join(File.expand_path('~'), '.trello-changelog'))
-    config_lines.each do |line|
-      config << line.split("'").values_at(1)
-    end
-
-    config.flatten!
+  def initialize(start_date)
 
     Trello.configure do |trello_config|
-      trello_config.developer_public_key =  config[0]
-      trello_config.member_token = config[1]
+      trello_config.developer_public_key = Variables::DEVKEY
+      trello_config.member_token = Variables::MEM_TOKEN
     end
 
-    @board = Trello::Board.find(config[2])
-    @week = week
+    @board = Trello::Board.find(Variables::BOARD)
+    if(start_date == nil) 
+    @start_date = Date.today - 6
+    else
+      begin
+        @start_date = Date.parse start_date
+        rescue ArgumentError
+          puts 'The start date syntax is wrong. Possible correct syntax are: YYYY-MM-DD, DD-MM-YYYY, YYYY/MM/DD, DD/MM/YYYY, ... . Please try again.'
+          exit
+        end
+    end
     @year = Date.today.year
-    @done_list = @board.lists.select { |list| list.name == config[3] }.last
+    @done_list = @board.lists.select { |list| list.name == Variables::DONE_LIST_NAME }.last
 
-    print(config)
+    print
   end
 
   private
 
   def new_tickets
-    @new_tickets ||= @board.cards.select { |card| card.creation_date.cweek == @week }
+    @new_tickets ||= @board.cards.select { |card| card.creation_date >= @start_date}
   end
 
   def done_tickets
@@ -44,22 +54,11 @@ class TrelloChangelog
   end
 
   def archived_tickets
-    @archived_tickets ||= @board.cards( { filter: :all } ).select { |card| card.creation_date.cweek == @week }.select { |card| card.closed == true }
+    @archived_tickets ||= @board.cards( { filter: :all } ).select { |card| card.creation_date >= @start_date }.select { |card| card.closed == true } - archived_done_tickets
   end
-
-  def done_feature_tickets
-    @done_feature_tickets ||=
-      done_tickets.select { |ticket| ticket.labels.select { |label| label.name == 'feature' }.count > 0 }
-  end
-
-  def done_bug_tickets
-    @done_bug_tickets ||=
-      done_tickets.select { |ticket| ticket.labels.select { |label| label.name == 'bug' }.count > 0 }
-  end
-
-  def done_postmortem_tickets
-    @done_postmortem_tickets ||=
-      done_tickets.select { |ticket| ticket.labels.select { |label| label.name == 'postmortem' }.count > 0 }
+  
+  def archived_done_tickets
+    @archived_done_tickets ||= @board.cards( { filter: :all } ).select { |card| card.creation_date >= @start_date }.select { |card| card.list_id == @done_list.id }.select { |card| card.closed == true }
   end
 
   def new_tickets_count
@@ -74,32 +73,22 @@ class TrelloChangelog
     archived_tickets.count
   end
 
-  def print(config)
-    puts "# Week #{@week}\n\n"
+  def print
+    puts "# Start date: #{@start_date}\n\n"
 
-    puts "Created Trello items this week: #{new_tickets_count}\n\n"
-    puts "Finished Trello items this week: #{done_tickets_count}\n\n"
-    puts "Archived Trello items this week: #{archived_tickets_count}\n\n"
+    puts "Created Trello items since #{@start_date}: #{new_tickets_count}\n\n"
+    puts "Finished Trello items since #{@start_date}: #{done_tickets_count}\n\n"
+    puts "Archived Trello items since #{@start_date}: #{archived_tickets_count}\n\n"
 
     puts "Summary: #{new_tickets_count} tickets in, #{done_tickets_count + archived_tickets_count} tickets out\n\n"
 
-    puts "\n## #{config[4]}:\n\n"
-    done_feature_tickets.each do |ticket|
-      puts " * [#{ticket.name}](#{ticket.url})"
+    for label_name in Variables::LABELS do
+      tickets_label_name = done_tickets.select { |ticket| ticket.labels.select { |label| label.name == label_name}.count > 0 }
+      puts "\n## #{label_name}:\n\n"
+      tickets_label_name.each do |ticket|
+        puts " * [#{ticket.name}](#{ticket.url})"
+      end
+      puts 'n.a.' if tickets_label_name.count == 0
     end
-    puts 'n.a.' if done_feature_tickets.count == 0
-
-    puts "\n## #{config[5]}:\n\n"
-    done_bug_tickets.each do |ticket|
-      puts " * [#{ticket.name}](#{ticket.url})"
-    end
-    puts 'n.a.' if done_bug_tickets.count == 0
-
-    puts "\n## #{config[6]}:\n\n"
-    done_postmortem_tickets.each do |ticket|
-      puts " * [#{ticket.name}](#{ticket.url})"
-    end
-
-    puts 'n.a.' if done_postmortem_tickets.count == 0
   end
 end
