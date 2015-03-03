@@ -5,7 +5,11 @@ require 'thor'
 require 'trello-changelog'
 
 class TrelloChangelogCommand < Thor
-  desc 'print', 'print trelloboard from a startdate (example: trello-changelog --start_date=2015-02-01) this parameter is only needed if you want to run on an other day than friday.'
+  desc(
+    'print',
+    'print trelloboard from a startdate (example: trello-changelog --start_date=2015-02-01)'\
+    'this parameter is only needed if you want to run on an other day than friday.'
+  )
   option :start_date, type: :string, desc: 'Start date'
 
   def print
