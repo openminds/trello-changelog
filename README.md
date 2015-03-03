@@ -1,7 +1,16 @@
 # README
 ---------
 
-Trello-changelog summarizes your Trello-board 
+Trello-changelog summarizes your Trello-board.
+It uses your done list to make a changelog of your Trello-board, which includes a count of new tickets, done tickets, archived tickets and a summarization of bugs, features etc...
+It's possible to use your own Trello labels.
+
+Example output:
+
+--------
+![trello-changelog-img](http://i.imgur.com/01Hxjmt.png) 
+
+--------
 
 ## Installation
 -----------
@@ -24,7 +33,7 @@ Install the gem:
 
 	response_type: "token"
 	
-	expiration: "never" if you don't want your token to ever expire. If you leave this blank, 	your generated token will expire after 30 days.
+	expiration: "never" if you don't want your token to ever expire. If you leave this blank, your generated token will expire after 30 days.
 	
 	So this should be something like: trello.com/1/authorize?	key=INSERT_KEY_FROM_STEP_1&response_type=token&expiration=never
 	You should see a page asking you to authorize your Trello application. Click "allow" and 	you should see a second page with a long alphanumeric string. This is your member token, 	write it down!
