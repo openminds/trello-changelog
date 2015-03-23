@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'trello-changelog'
-  s.version = '0.2.0'
+  s.version = '0.3.0'
   s.date = '2015-02-19'
   s.summary = 'Changelog for Trello'
   s.description	= 'Changelog for Trello'
@@ -14,4 +14,5 @@ Gem::Specification.new do |s|
   s.add_dependency 'pry'
   s.add_dependency 'rake'
   s.add_dependency 'ruby-trello'
+  s.add_dependency 'thor'
 end
