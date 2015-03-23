@@ -4,6 +4,7 @@ class TrelloChangelog
   def print
     print_summary
     print_labels
+    print_unlabeled
   end
 
   def print_summary
@@ -24,6 +25,19 @@ class TrelloChangelog
         puts " * [#{ticket.name}](#{ticket.url})"
       end
       puts 'n.a.' if tickets_label_name.count == 0
+    end
+  end
+
+  def print_unlabeled
+    @unlabeled_done_tickets = done_tickets
+
+    Variables::LABELS.each do |label|
+      @unlabeled_done_tickets.select! { |ticket| !ticket.card_labels.find{ |card_label| card_label['name'] == label} }
+    end
+
+    puts "\n## Other"
+    @unlabeled_done_tickets.each do |ticket|
+      puts " * [#{ticket.name}](#{ticket.url})"
     end
   end
 end

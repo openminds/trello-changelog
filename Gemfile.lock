@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    trello-changelog (0.2.0)
+    trello-changelog (0.3.0)
       pry
       rake
       ruby-trello
