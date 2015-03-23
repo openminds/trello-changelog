@@ -22,48 +22,42 @@ Install the gem:
 ## Configuration
 ---------
 
-1. Create a file named '.trello-changelog.rb' in your ~home directory.
+Create a file named '.trello-changelog.rb' in your ~home directory, it should contain the following:
 
-2. Get your API keys from trello.com/app-key.
+```ruby
+module Variables  
+  DEVKEY = 'abcde' 
+  MEM_TOKEN = 'abcde' 
+  BOARD = '1a2b3b4'
+  DONE_LIST_NAME = 'Done'
+  LABELS = %w( 
+    bug
+    feature
+    postmortem
+  )          
+end
+```
 
-3. Visit the URL [trello.com/1/authorize], with the following GET parameters:
-
-
-4. 	key: the API key you got in step 2.
-
-	response_type: "token"
-	
-	expiration: "never" if you don't want your token to ever expire. If you leave this blank, your generated token will expire after 30 days.
-	
-	So this should be something like: trello.com/1/authorize?	key=INSERT_KEY_FROM_STEP_1&response_type=token&expiration=never
-	You should see a page asking you to authorize your Trello application. Click "allow" and 	you should see a second page with a long alphanumeric string. This is your member token, 	write it down!
-
-5. Copy this and fill it in
-	
-		module Variables  
-		DEVKEY = '' # here your key from step 2
-  	 	MEM_TOKEN = '' # here your token
-  	 	BOARD = '' # here the code of your trello board (can be found in url of your trello board)
-  	 	DONE_LIST_NAME = '' # here name of your done list 
-  	 	LABELS = %w( 
-    		 # here name of label 1
-   			 # here name of label 2
-   			 # ...
-   		)          
-		end
-
-
+ * **DEVKEY**: get this from [trello.com/app-key](http://trello.com/app-key)
+ * **MEM_TOKEN**: go to [trello.com/1/authorize?key=DEVKEY&response_type=token&expiration=never](http://trello.com/1/authorize?key=DEVKEY&response_type=token&expiration=never) (replace DEVKEY with your devkey)
+ * **BOARD**: you can find your board ID in the url of your board (should be something like soZ9XlDB)
+ * **DONE_LIST_NAME**: the name of the column you use for done tickets (case sensitive)
+ * **LABELS**: labels you use in your board and want to use for categorization (case sensitive)
 
 ## Usage
 ----------
 
-If you want to summarize this week (6 days back): 
+If you want to summarize this week (6 days back, we use this gem on a friday by default): 
 
 `trello-changelog print`
 
 If you want to summarize since a certain date:
 
 `trello-changelog print --start_date=2015-02-20`
+
+Run and copy to pasteboard (OS X):
+
+`trello-changelog print | pbcopy`
 
 ## Contributing
 ----------
