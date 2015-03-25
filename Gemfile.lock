@@ -1,10 +1,11 @@
 PATH
   remote: .
   specs:
-    trello-changelog (0.0.0)
+    trello-changelog (0.3.0)
       pry
       rake
       ruby-trello
+      thor
 
 GEM
   remote: https://rubygems.org/
@@ -43,6 +44,7 @@ GEM
       oauth (~> 0.4.5)
       rest-client (~> 1.7.2)
     slop (3.6.0)
+    thor (0.19.1)
     thread_safe (0.3.4)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
