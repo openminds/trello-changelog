@@ -1,10 +1,10 @@
 Gem::Specification.new do |s|
   s.name = 'trello-changelog'
-  s.version = '0.4.0'
+  s.version = '1.0.0'
   s.date = '2015-02-19'
   s.summary = 'Changelog for Trello'
   s.description	= 'Changelog for Trello'
-  s.authors = ['Giel De Bleser']
+  s.authors = ['Giel De Bleser', 'Steven De Coeyer', 'Joren De Groof']
   s.executables << 'trello-changelog'
   s.email = 'giel@openminds.be'
   s.files = Dir.glob("{bin,lib}/**/*")
