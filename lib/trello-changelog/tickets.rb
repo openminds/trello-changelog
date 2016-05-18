@@ -2,11 +2,11 @@ require 'trello-changelog/trello/card'
 
 class TrelloChangelog
   def board
-    @board ||= Trello::Board.find(Variables::BOARD)
+    @board ||= Trello::Board.find(@config[:board])
   end
 
   def done_list
-    @done_list ||= board.lists.select { |list| list.name == Variables::DONE_LIST_NAME }.last
+    @done_list ||= board.lists.select { |list| list.name == @config[:done_list_name] }.last
   end
 
   def new_tickets

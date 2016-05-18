@@ -18,7 +18,7 @@ class TrelloChangelog
   end
 
   def print_labels
-    for label_name in Variables::LABELS do
+    for label_name in @config[:labels] do
       tickets_label_name = done_tickets.select { |ticket| ticket.labels.select { |label| label.name == label_name}.count > 0 }
       puts "\n## #{label_name}:\n\n"
       tickets_label_name.each do |ticket|
@@ -31,7 +31,7 @@ class TrelloChangelog
   def print_unlabeled
     @unlabeled_done_tickets = done_tickets
 
-    Variables::LABELS.each do |label|
+    @config[:labels].each do |label|
       @unlabeled_done_tickets.select! { |ticket| !ticket.card_labels.find{ |card_label| card_label['name'] == label} }
     end
 
