@@ -22,7 +22,9 @@ Install the gem:
 ## Configuration
 ---------
 
-Create a file named '.trello-changelog.rb' in your ~home directory, it should contain the following:
+There are two options:
+
+1. Create a file named '.trello-changelog.rb' in your ~home directory, it should contain the following:
 
 ```ruby
 module Variables  
@@ -37,6 +39,10 @@ module Variables
   )          
 end
 ```
+
+2. Add all the required options to the changelog command:
+
+`trello-changelog print --devkey=abc --mem_token=def --board=ghi --done_list_name=jkl --labels=foo bar`
 
  * **DEVKEY**: get this from [trello.com/app-key](http://trello.com/app-key)
  * **MEM_TOKEN**: go to [trello.com/1/authorize?key=DEVKEY&response_type=token&expiration=never](http://trello.com/1/authorize?key=DEVKEY&response_type=token&expiration=never) (replace DEVKEY with your devkey)

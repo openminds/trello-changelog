@@ -11,9 +11,14 @@ class TrelloChangelogCommand < Thor
     'this parameter is only needed if you want to run on an other day than friday.'
   )
   option :start_date, type: :string, desc: 'Start date'
+  option :devkey, type: :string, desc: "Trello key"
+  option :mem_token, type: :string, desc: "Trello token"
+  option :board, type: :string, desc: "Trello board ID"
+  option :done_list_name, type: :string, desc: "Name of the 'Done' list"
+  option :labels, type: :array, desc: "Specific labels you want to output"
 
   def print
-    TrelloChangelog.new(options[:start_date])
+    TrelloChangelog.new(options)
   end
 end
 
