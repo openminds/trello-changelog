@@ -11,7 +11,5 @@ class TrelloChangelog
     load_config_file
     configure_trello
     start_date(@options[:start_date])
-
-    print
   end
 end

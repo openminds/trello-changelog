@@ -18,7 +18,7 @@ class TrelloChangelogCommand < Thor
   option :labels, type: :array, desc: "Specific labels you want to output"
 
   def print
-    TrelloChangelog.new(options)
+    TrelloChangelog.new(options).print
   end
 end
 
