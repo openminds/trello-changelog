@@ -29,7 +29,7 @@ class TrelloChangelog
       tickets_label_name = done_tickets.select { |ticket| ticket.labels.select { |label| label.name == label_name}.count > 0 }
       @output << "\n## #{label_name}:\n\n"
       tickets_label_name.each do |ticket|
-        @output << " * [#{ticket.name}](#{ticket.url})"
+        @output << " * [#{ticket.name}](#{ticket.url})\n"
       end
       @output << 'n.a.' if tickets_label_name.count == 0
     end
@@ -42,9 +42,9 @@ class TrelloChangelog
       @unlabeled_done_tickets.select! { |ticket| !ticket.card_labels.find{ |card_label| card_label['name'] == label} }
     end
 
-    @output << "\n## Other"
+    @output << "\n## Other\n\n"
     @unlabeled_done_tickets.each do |ticket|
-      @output << " * [#{ticket.name}](#{ticket.url})"
+      @output << " * [#{ticket.name}](#{ticket.url})\n"
     end
   end
 end
