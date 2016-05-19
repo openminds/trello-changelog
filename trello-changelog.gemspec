@@ -1,6 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name = 'trello-changelog'
-  spec.version = '1.0.0'
+  spec.version = '1.0.1'
   spec.date = '2015-02-19'
   spec.summary = 'Changelog for Trello'
   spec.description	= 'Changelog for Trello'
