@@ -36,11 +36,8 @@ class TrelloChangelog
   end
 
   def build_unlabeled
-    @unlabeled_done_tickets = done_tickets
-
-    @config[:labels].each do |label|
-      @unlabeled_done_tickets.select! { |ticket| !ticket.card_labels.find{ |card_label| card_label['name'] == label} }
-    end
+    # We only list the cards that have none of the configured labels
+    @unlabeled_done_tickets = done_tickets.select { |ticket| (ticket.labels.map(&:name) & @config[:labels]).empty? }
 
     @output << "\n## Other\n\n"
     @unlabeled_done_tickets.each do |ticket|
